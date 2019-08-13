@@ -52,7 +52,7 @@ The goal of the final lab is to leverage C# to spawn a new process spoofing its 
 
 ## Acknowledgments
 
-Most of the labs on this workshop started from a Github repository/gist, a Stack Overflow code snippet or simply a Google search. Thank you to everyone who shares code for others to learn from.
+Most of the labs on this workshop started from a Github repository/gist, a Stack Overflow code snippet or a Google search. Thank you to everyone who shares code for others to learn from.
 
 * https://github.com/pwndizzle/c-sharp-memory-injection
 * http://www.codingvision.net/miscellaneous/c-inject-a-dll-into-a-process-w-createremotethread
