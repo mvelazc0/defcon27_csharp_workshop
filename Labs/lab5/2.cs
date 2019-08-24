@@ -7,13 +7,13 @@ using System.Collections.ObjectModel;
 
 public class Program
 {
-	public static void Main()
-	{
-		PowerShell pstest = PowerShell.Create();
-		String script = "";
-		script = System.Text.Encoding.Unicode.GetString(System.Convert.FromBase64String(script));
-		pstest.AddScript(script);
-		Collection<PSObject> output = null;
-		output = pstest.Invoke();
-	}
+    public static void Main()
+    {
+        PowerShell pstest = PowerShell.Create();
+        String script = "";
+        script = System.Text.Encoding.Unicode.GetString(System.Convert.FromBase64String(script));
+        pstest.AddScript(script);
+        Collection<PSObject> output = null;
+        output = pstest.Invoke();
+    }
 }

@@ -35,7 +35,7 @@ class Program
         ParentProcId = Convert.ToInt32(Console.ReadLine());
         Console.WriteLine(ParentProcId);
 
-        string binaryPath= "C:\\Windows\\System32\\notepad.exe";
+        string binaryPath = "C:\\Windows\\System32\\notepad.exe";
 
         Console.WriteLine(String.Format("Press enter to execute '{0}' under pid {1}", binaryPath, ParentProcId));
         Console.ReadKey();
@@ -49,7 +49,7 @@ class SpoofParent
 {
     [DllImport("kernel32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
-    static extern bool CreateProcess(string lpApplicationName, string lpCommandLine, ref SECURITY_ATTRIBUTES lpProcessAttributes,ref SECURITY_ATTRIBUTES lpThreadAttributes, bool bInheritHandles, uint dwCreationFlags,IntPtr lpEnvironment, string lpCurrentDirectory, [In] ref STARTUPINFOEX lpStartupInfo,out PROCESS_INFORMATION lpProcessInformation);
+    static extern bool CreateProcess(string lpApplicationName, string lpCommandLine, ref SECURITY_ATTRIBUTES lpProcessAttributes, ref SECURITY_ATTRIBUTES lpThreadAttributes, bool bInheritHandles, uint dwCreationFlags, IntPtr lpEnvironment, string lpCurrentDirectory, [In] ref STARTUPINFOEX lpStartupInfo, out PROCESS_INFORMATION lpProcessInformation);
 
     [DllImport("kernel32.dll", SetLastError = true)]
     public static extern IntPtr OpenProcess(ProcessAccessFlags processAccess, bool bInheritHandle, int processId);
@@ -59,14 +59,14 @@ class SpoofParent
 
     [DllImport("kernel32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool UpdateProcThreadAttribute(IntPtr lpAttributeList, uint dwFlags, IntPtr Attribute, IntPtr lpValue,IntPtr cbSize, IntPtr lpPreviousValue, IntPtr lpReturnSize);
+    private static extern bool UpdateProcThreadAttribute(IntPtr lpAttributeList, uint dwFlags, IntPtr Attribute, IntPtr lpValue, IntPtr cbSize, IntPtr lpPreviousValue, IntPtr lpReturnSize);
 
     [DllImport("kernel32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static extern bool InitializeProcThreadAttributeList(IntPtr lpAttributeList, int dwAttributeCount, int dwFlags, ref IntPtr lpSize);
 
     [DllImport("kernel32.dll", SetLastError = true)]
-    static extern bool SetHandleInformation(IntPtr hObject, HANDLE_FLAGS dwMask,HANDLE_FLAGS dwFlags);
+    static extern bool SetHandleInformation(IntPtr hObject, HANDLE_FLAGS dwMask, HANDLE_FLAGS dwFlags);
 
     [DllImport("kernel32.dll", SetLastError = true)]
     static extern bool CloseHandle(IntPtr hObject);
@@ -95,19 +95,19 @@ class SpoofParent
         //siEx.StartupInfo.cb = Marshal.SizeOf(siEx);
         IntPtr lpValueProc = IntPtr.Zero;
         IntPtr hSourceProcessHandle = IntPtr.Zero;
-		var lpSize = IntPtr.Zero;
-		
-		InitializeProcThreadAttributeList(IntPtr.Zero, 1, 0, ref lpSize);
-		siEx.lpAttributeList = Marshal.AllocHGlobal(lpSize);
-		InitializeProcThreadAttributeList(siEx.lpAttributeList, 1, 0, ref lpSize);
-		
-		IntPtr parentHandle = OpenProcess(ProcessAccessFlags.CreateProcess | ProcessAccessFlags.DuplicateHandle, false, parentProcessId);
-		
-		lpValueProc = Marshal.AllocHGlobal(IntPtr.Size);
-		Marshal.WriteIntPtr(lpValueProc, parentHandle);
-		
-		UpdateProcThreadAttribute(siEx.lpAttributeList, 0, (IntPtr)PROC_THREAD_ATTRIBUTE_PARENT_PROCESS, lpValueProc, (IntPtr)IntPtr.Size, IntPtr.Zero, IntPtr.Zero);
-		
+        var lpSize = IntPtr.Zero;
+
+        InitializeProcThreadAttributeList(IntPtr.Zero, 1, 0, ref lpSize);
+        siEx.lpAttributeList = Marshal.AllocHGlobal(lpSize);
+        InitializeProcThreadAttributeList(siEx.lpAttributeList, 1, 0, ref lpSize);
+
+        IntPtr parentHandle = OpenProcess(ProcessAccessFlags.CreateProcess | ProcessAccessFlags.DuplicateHandle, false, parentProcessId);
+
+        lpValueProc = Marshal.AllocHGlobal(IntPtr.Size);
+        Marshal.WriteIntPtr(lpValueProc, parentHandle);
+
+        UpdateProcThreadAttribute(siEx.lpAttributeList, 0, (IntPtr)PROC_THREAD_ATTRIBUTE_PARENT_PROCESS, lpValueProc, (IntPtr)IntPtr.Size, IntPtr.Zero, IntPtr.Zero);
+
         siEx.StartupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
         siEx.StartupInfo.wShowWindow = SW_HIDE;
 
@@ -124,7 +124,7 @@ class SpoofParent
 
         return true;
 
-       
+
     }
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

