@@ -1,6 +1,6 @@
 # Writing custom backdoor payloads with C#
 
-This workshop aims to provide attendees hands-on experience on writing custom backdoor payloads using C# for the most common command and control frameworks including Metasploit, Powershell Empire and Cobalt Strike. The workshop consists in 7 lab exercises; each of the exercises goes over a different technique that leverages C# and .NET capabilities to obtain a reverse shell on a victim Windows host. The covered techniques include raw shellcode injection, process injection, process hollowing, runtime compilation, parent pid spoofing, antivirus bypassing, etc. At the end of this workshop attendees will have a clear understanding of these techniques both from an attack and defense perspective.
+This workshop aims to provide attendees hands-on experience on writing custom backdoor payloads using C# for the most common command and control frameworks including Metasploit, Powershell Empire and Cobalt Strike. The workshop consists in 8 lab exercises; each of the exercises goes over a different technique that leverages C# and .NET capabilities to obtain a reverse shell on a victim Windows host. The covered techniques include raw shellcode injection, process injection, process hollowing, runtime compilation, parent pid spoofing, antivirus bypassing, etc. At the end of this workshop attendees will have a clear understanding of these techniques both from an attack and defense perspective.
 
 **Skill Level**: Intermediate
 
